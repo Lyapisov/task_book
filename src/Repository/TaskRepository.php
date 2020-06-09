@@ -85,9 +85,18 @@ final class TaskRepository
         $result->bindParam(':name', $taskData['name'], PDO::PARAM_STR);
         $result->bindParam(':user_name', $taskData['userName'], PDO::PARAM_STR);
         $result->bindParam(':user_email', $taskData['userEmail'], PDO::PARAM_STR);
-        $result->bindParam(':user_email', $taskData['completed'], PDO::PARAM_BOOL);
-        $result->bindParam(':user_email', $taskData['edited'], PDO::PARAM_BOOL);
+        $result->bindParam(':completed', $taskData['completed'], PDO::PARAM_BOOL);
+        $result->bindParam(':edited', $taskData['edited'], PDO::PARAM_BOOL);
         $result->execute();
+    }
+
+    public function updateCompleted(int $id):void
+    {
+        $task = $this->getTaskById($id);
+        $taskArray = $this->extractTaskData($task);
+        $taskArray['completed'] = true;
+        $task = $this->hydrateTask($taskArray);
+        $this->updateTaskById($task);
     }
 
     public function getTaskById(int $id):Task
@@ -156,6 +165,22 @@ final class TaskRepository
         $sortingDirection = $params['sortingDirection'];
 
         return new Sort($nameSortParam, $sortingDirection);
+    }
+
+    public function checkName(string $name):bool
+    {
+        if (!isset($name) || !empty($name)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function checkEmail($email)
+    {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)){
+            return true;
+        }
+        return false;
     }
 
     private function hydrateTask(array $row):Task
