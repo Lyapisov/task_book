@@ -27,6 +27,11 @@ $router->any('/update/{id}', function($id) use ($container) {
     return $controller($id);
 });
 
+$router->post('/update/completed/{id}', function($id) use ($container) {
+    $controller = $container[LogoutAdmin::class];
+    return $controller($id);
+});
+
 $router->any('/auth', function() use ($container) {
     $controller = $container[AuthAdmin::class];
     return $controller();
@@ -36,5 +41,7 @@ $router->any('/logout', function() use ($container) {
     $controller = $container[LogoutAdmin::class];
     return $controller();
 });
+
+
 
 return $router;

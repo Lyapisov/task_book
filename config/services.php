@@ -1,6 +1,7 @@
 <?php
 
 use TaskManager\Controllers\Admin\AuthAdmin;
+use TaskManager\Controllers\Admin\CompletedTaskAdmin;
 use TaskManager\Controllers\Admin\LogoutAdmin;
 use TaskManager\Controllers\Admin\UpdateTaskAdmin;
 use TaskManager\Controllers\CreateTasks;
@@ -8,7 +9,6 @@ use TaskManager\Repository\AdminRepository;
 use TaskManager\Services\Db;
 use TaskManager\Controllers\GetTasks;
 use TaskManager\Repository\TaskRepository;
-use TaskManager\Services\Paginator;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -32,7 +32,10 @@ $container[UpdateTaskAdmin::class] = new UpdateTaskAdmin(
 );
 $container[AuthAdmin::class] = new AuthAdmin($twig, $container[AdminRepository::class]);
 $container[LogoutAdmin::class] = new LogoutAdmin();
-
-
+$container[CompletedTaskAdmin::class] = new CompletedTaskAdmin(
+    $twig,
+    $container[TaskRepository::class],
+    $container[AdminRepository::class]
+);
 
 return $container;
