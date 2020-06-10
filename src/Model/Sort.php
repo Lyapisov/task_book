@@ -22,7 +22,6 @@ final class Sort
         $this->sortingDirection = $sortingDirection;
     }
 
-
     /**
      * @return string
      */
@@ -37,21 +36,5 @@ final class Sort
     public function getSortingDirection(): string
     {
         return $this->sortingDirection;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPage(): int
-    {
-        return $this->page;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTaskPerPage(): int
-    {
-        return $this->taskPerPage;
     }
 }

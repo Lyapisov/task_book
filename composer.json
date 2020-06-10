@@ -12,7 +12,8 @@
         "twig/twig": "^3.0",
         "robmorgan/phinx": "^0.12.1",
         "ext-pdo": "*",
-        "elisdn/php-hydrator": "^1.0"
+        "elisdn/php-hydrator": "^1.0",
+        "pagerfanta/pagerfanta": "^2.3"
     },
     "autoload": {
         "psr-4": {

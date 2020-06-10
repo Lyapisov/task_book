@@ -32,31 +32,23 @@ final class CreateTasks
             return $this->twig->render('task/createTask.php.twig');
         }
 
-        $taskName = $_POST['name'] ?? null;
-        $userName = $_POST['user_name'] ?? null;
-        $userEmail = $_POST['user_email'] ?? null;
+        $taskName = $_POST['name'] ?? '';
+        $userName = $_POST['user_name'] ?? '';
+        $userEmail = $_POST['user_email'] ?? '';
 
         $errors = [];
 
-        if (!$this->repository->checkName((string)$taskName)) {
-            $errors[] = 'Введите задачу !';
-        }
-
-        if (!$this->repository->checkName((string)$userName)) {
-            $errors[] = 'Введите имя !';
-        }
-
-        if (!$this->repository->checkEmail((string)$userEmail)) {
-            $errors[] = 'Введите верный email !';
-        }
-        if (!$errors) {
+        try {
             $task = new Task((string)$taskName, (string)$userName, (string)$userEmail);
+            $task->checkValue($taskName, $userName, $userEmail);
             $this->repository->add($task);
             $successful = 'Задача успешно размещена.';
 
             return $this->twig->render('task/createTask.php.twig',[
                 'successful' => $successful
             ]);
+        } catch (\DomainException $exception){
+            $errors[] = $exception->getMessage();
         }
 
         return $this->twig->render('task/createTask.php.twig',[

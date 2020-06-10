@@ -49,6 +49,24 @@ class Task
         $this->edited = true;
     }
 
+    public function checkValue(string $name, string $userName, string $userEmail):void
+    {
+        if(!$name || !$userName || !$userEmail){
+            throw new \DomainException('Заполните все поля !');
+        }
+
+        if(!$name){
+            throw new \DomainException('Введите задачу !');
+        }
+
+        if(!$userName){
+            throw new \DomainException('Введите имя !');
+        }
+
+        if(!$userEmail){
+            throw new \DomainException('Введите email !');
+        }
+    }
 
     /**
      * @return int
@@ -97,5 +115,4 @@ class Task
     {
         return $this->edited;
     }
-
 }

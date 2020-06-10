@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace TaskManager\Controllers\Admin;
 
 
-use TaskManager\Model\Task;
 use TaskManager\Repository\AdminRepository;
 use TaskManager\Repository\TaskRepository;
 use Twig\Environment;
@@ -48,7 +47,6 @@ final class UpdateTaskAdmin
 
         $errors = [];
         try {
-
             $taskName = $_POST['name'] ?? '';
             $task->edit($taskName);
             $this->repository->update($task);
@@ -60,7 +58,6 @@ final class UpdateTaskAdmin
         } catch (\DomainException $exception){
             $errors[] = $exception->getMessage();
         }
-
         return $this->twig->render('admin/update.php.twig', [
             'errors' => $errors,
             'taskInfo' => $task

@@ -8,6 +8,7 @@ use TaskManager\Repository\AdminRepository;
 use TaskManager\Services\Db;
 use TaskManager\Controllers\GetTasks;
 use TaskManager\Repository\TaskRepository;
+use TaskManager\Services\Paginator;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -21,7 +22,7 @@ $container[AdminRepository::class] = new AdminRepository($pdo);
 $container[GetTasks::class] = new GetTasks(
     $twig,
     $container[TaskRepository::class],
-    $container[AdminRepository::class]
+    $container[AdminRepository::class],
 );
 $container[CreateTasks::class] = new CreateTasks($twig, $container[TaskRepository::class]);
 $container[UpdateTaskAdmin::class] = new UpdateTaskAdmin(
@@ -31,5 +32,7 @@ $container[UpdateTaskAdmin::class] = new UpdateTaskAdmin(
 );
 $container[AuthAdmin::class] = new AuthAdmin($twig, $container[AdminRepository::class]);
 $container[LogoutAdmin::class] = new LogoutAdmin();
+
+
 
 return $container;
