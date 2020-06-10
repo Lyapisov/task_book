@@ -8,6 +8,7 @@ namespace TaskManager\Controllers;
 
 use TaskManager\Repository\AdminRepository;
 use TaskManager\Repository\TaskRepository;
+use TaskManager\Services\Paginator;
 use Twig\Environment;
 
 final class GetTasks
@@ -16,38 +17,43 @@ final class GetTasks
     private Environment $twig;
     private TaskRepository $repository;
     private AdminRepository $adminRepository;
+    private Paginator $paginator;
 
     public function __construct(
         Environment $twig,
         TaskRepository $repository,
-        AdminRepository $adminRepository
+        AdminRepository $adminRepository,
+        Paginator $paginator
     ){
         $this->twig = $twig;
         $this->repository = $repository;
         $this->adminRepository = $adminRepository;
+        $this->paginator = $paginator;
     }
 
     public function __invoke(): string
     {
-
+        $paginator = $this->paginator->pagination();
+        $page = $paginator->getPage();
         $login = $this->adminRepository->isGuest();
         $standartChoice = '';
-
         if(!isset($_POST['submit'])) {
-            $tasks = $this->repository->getAllByFilter($standartChoice, 1,self::NUMBER_OF_TASKS);
+            $tasks = $this->repository->getAllByFilter($standartChoice, $page,self::NUMBER_OF_TASKS);
             return $this->twig->render('home/index.php.twig',
                 [
                     'tasks' => $tasks,
-                    'login' => $login
+                    'login' => $login,
+                    'paginator' => $paginator
                 ]
             );
         }
         $choice = $_POST['sort'];
-        $tasks = $this->repository->getAllByFilter($choice, 1,self::NUMBER_OF_TASKS);
+        $tasks = $this->repository->getAllByFilter($choice, $page,self::NUMBER_OF_TASKS);
         return $this->twig->render('home/index.php.twig',
             [
                 'tasks' => $tasks,
-                'login' => $login
+                'login' => $login,
+                'paginator' => $paginator
             ]
         );
     }

@@ -37,6 +37,19 @@ class Task
         $this->edited = false;
     }
 
+    public function edit(string $name):void
+    {
+        if(!$name){
+            throw new \DomainException('Введите задачу !');
+        }
+        if($this->getName() == $name){
+            return ;
+        }
+        $this->name = $name;
+        $this->edited = true;
+    }
+
+
     /**
      * @return int
      */

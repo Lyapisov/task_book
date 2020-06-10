@@ -37,45 +37,45 @@ final class UpdateTaskAdmin
     {
 
         $this->adminRepository->checkAdmin();
-        $taskInfo = $this->repository->getTaskById($id);
+        $task = $this->repository->getTaskById($id);
 
         if (!isset($_POST['submit'])) {
             return $this->twig->render('admin/update.php.twig',
                 [
-                    'taskInfo' => $taskInfo
+                    'taskInfo' => $task
                 ]);
         }
-
-        $taskName = $_POST['name'] ?? null;
-        $userName = $_POST['user_name'] ?? null;
-        $userEmail = $_POST['user_email'] ?? null;
 
         $errors = [];
+        try {
 
-        if (!$this->adminRepository->checkName((string)$taskName)) {
-            $errors[] = 'Введите задачу !';
+            $taskName = $_POST['name'] ?? '';
+            $task->edit($taskName);
+            $this->repository->update($task);
+            $successful = 'Задача успешно изменена.';
+            return $this->twig->render('admin/update.php.twig', [
+                'successful' => $successful,
+                'taskInfo' => $task
+            ]);
+        } catch (\DomainException $exception){
+            $errors[] = $exception->getMessage();
         }
 
-        if (!$this->adminRepository->checkName((string)$userName)) {
-            $errors[] = 'Введите имя !';
-        }
+        return $this->twig->render('admin/update.php.twig', [
+            'errors' => $errors,
+            'taskInfo' => $task
+        ]);
 
-        if (!$this->adminRepository->checkEmail((string)$userEmail)) {
-            $errors[] = 'Введите верный email !';
-        }
 
-        if (!$errors) {
-            $task = new Task((string)$taskName, (string)$userName, (string)$userEmail);
-            if(!isset($_POST['completed'])){
-                $this->repository->updateTaskById($task);
-                $successful = 'Задача успешно изменена.';
-                return $this->twig->render('admin/update.php.twig',[
-                    'successful' => $successful
-                ]);
-            }
-            $this->repository->updateCompleted($id);
-        }
-        header("Location: /");
-        return '';
+//        if(isset($_POST['completed'])){
+//            $this->repository->updateCompleted($id);
+//            $successful = 'Статус изменен.';
+//            return $this->twig->render('admin/update.php.twig', [
+//                'successful' => $successful
+//            ]);
+//        }
+
+
+
     }
 }

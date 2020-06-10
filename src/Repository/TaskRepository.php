@@ -10,6 +10,7 @@ use TaskManager\Services\Db;
 use PDO;
 use TaskManager\Model\Task;
 use ElisDN\Hydrator\Hydrator;
+use TaskManager\Services\Paginator;
 
 final class TaskRepository
 {
@@ -29,7 +30,6 @@ final class TaskRepository
     public function getAllByFilter(string $choice, int $page, int $taskPerPage):array
     {
         $sortParam = $this->getSortParameters($choice);
-        $page = intval($page);
         $offset = ($page - 1) * $taskPerPage;
         $nameSortParam = $sortParam->getNameSortParam();
         $sortingDirection = $sortParam->getSortingDirection();
@@ -66,9 +66,8 @@ final class TaskRepository
         $result->execute();
     }
 
-    public function updateTaskById(Task $task):void
+    public function update(Task $task):void
     {
-
         $taskData = $this->extractTaskData($task);
 
         $sql = "UPDATE task
@@ -77,7 +76,7 @@ final class TaskRepository
                 user_name = :user_name, 
                 user_email = :user_email, 
                 completed = :completed, 
-                edited = :edited, 
+                edited = :edited 
             WHERE id = :id";
 
         $result = $this->pdo->prepare($sql);
@@ -90,13 +89,11 @@ final class TaskRepository
         $result->execute();
     }
 
-    public function updateCompleted(int $id):void
+    public function getCountTask():int
     {
-        $task = $this->getTaskById($id);
-        $taskArray = $this->extractTaskData($task);
-        $taskArray['completed'] = true;
-        $task = $this->hydrateTask($taskArray);
-        $this->updateTaskById($task);
+        $sql = 'SELECT COUNT(*) FROM task';
+        $result = $this->pdo->query($sql);
+        return $result->columnCount();
     }
 
     public function getTaskById(int $id):Task
@@ -114,13 +111,12 @@ final class TaskRepository
         return $this->hydrateTask($row);
     }
 
-    private static function create(string $choice)
+    private static function parseSortParam(string $choice):array
     {
         $sortParam = [
             'nameSortParam' => 'id',
             'sortingDirection' => 'DESC',
         ];
-
 
         if ($choice == 'newTask') {
             return $sortParam;
@@ -158,29 +154,29 @@ final class TaskRepository
         return $sortParam;
     }
 
+    public function hydratePaginator(array $paginator):Paginator
+    {
+        return $this->hydrator->hydrate(Paginator::class,
+            [
+                'firstPage' => $paginator['firstPage'],
+                'lastPage' => $paginator['lastPage'],
+                'firstNumberPage' => $paginator['firstNumberPage'],
+                'secondNumberPage' => $paginator['secondNumberPage'],
+                'thirdNumberPage' => $paginator['thirdNumberPage'],
+                'prev' => $paginator['prev'],
+                'next' => $paginator['next'],
+                'page' => $paginator['page'],
+            ]
+        );
+    }
+
     private function getSortParameters(string $choice): Sort
     {
-        $params = self::create($choice);
+        $params = self::parseSortParam($choice);
         $nameSortParam = $params['nameSortParam'];
         $sortingDirection = $params['sortingDirection'];
 
         return new Sort($nameSortParam, $sortingDirection);
-    }
-
-    public function checkName(string $name):bool
-    {
-        if (!isset($name) || !empty($name)) {
-            return true;
-        }
-        return false;
-    }
-
-    public static function checkEmail($email)
-    {
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)){
-            return true;
-        }
-        return false;
     }
 
     private function hydrateTask(array $row):Task
@@ -200,6 +196,7 @@ final class TaskRepository
     private function extractTaskData(Task $task):array
     {
         return $this->hydrator->extract($task, [
+            'id',
             'name',
             'userName',
             'userEmail',

@@ -83,7 +83,7 @@
                                     <h5 class="card-text p-3 border">{{ tasks.name }}</h5>
                                         <div class="row justify-content-between">
 
-                                        {% if tasks.completed %}
+                                        {% if tasks.completed == true %}
                                             <div class="col-4">
                                                 <span class="badge badge-success">Выполнено</span>
                                             </div>
@@ -92,31 +92,35 @@
                                             <span class="badge badge-secondary">Не выполнено</span>
                                             </div>
                                         {% endif %}
-                                        {% if login == true %}
-                                                <div class="col-4">
-                                            <span class="badge badge-outline-dark "><a href="/update/{{ tasks.id }}">Изменить</a></span>
-                                                </div>
-                                        {% endif %}
-    {#                                    {% if tasks.edited %}#}
-                                                    <div class="col-4">
-                                            <span class="badge badge-info">Исправлено администратором</span>
-                                                    </div>
-    {#                                    {% endif %}#}
+                                            <div class="col-4 text-center">
+                                                {% if login == true %}
+                                                    <span class="badge badge-outline-dark "><a href="/update/{{ tasks.id }}">Изменить</a></span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-4 text-right">
+                                                {% if tasks.edited == true %}
+                                                    <span class="badge badge-info">Исправлено администратором</span>
+                                                {% endif %}
+                                            </div>
                                         </div>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
-                    <div class="row justify-content-center">
+                    <div class="row">
+                        <div class="col-sm-12">
                         <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item"><a class="page-link" href="#">Пред.</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">След.</a></li>
+                            <ul class="pagination pagination-sm justify-content-center">
+                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.firstPage }}">Начальная</a></li>
+                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.prev }}">Пред.</a></li>
+                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.firstNumberPage }}"><p>{{ paginator.firstNumberPage }}</p></a></li>
+                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.secondNumberPage }}">{{ paginator.secondNumberPage }}</a></li>
+                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.thirdNumberPage }}">{{ paginator.thirdNumberPage }}</a></li>
+                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.next }}">След.</a></li>
+                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.lastPage }}">Последняя</a></li>
                             </ul>
                         </nav>
+                        </div>
                     </div>
                 </div>
             </div>
