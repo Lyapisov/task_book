@@ -94,6 +94,7 @@
                                         {% endif %}
                                             <div class="col-4 text-center">
                                                 {% if login == true %}
+                                                    <span class="badge badge-outline-dark "><a href="/update/completed/{{ tasks.id }}">Завершить задачу</a></span>
                                                     <span class="badge badge-outline-dark "><a href="/update/{{ tasks.id }}">Изменить</a></span>
                                                 {% endif %}
                                             </div>
@@ -112,11 +113,9 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination pagination-sm justify-content-center">
                                 <li class="page-item"><a class="page-link" href="/?page={{ paginator.firstPage }}">Начальная</a></li>
-                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.prev }}">Пред.</a></li>
-                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.firstNumberPage }}"><p>{{ paginator.firstNumberPage }}</p></a></li>
-                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.secondNumberPage }}">{{ paginator.secondNumberPage }}</a></li>
-                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.thirdNumberPage }}">{{ paginator.thirdNumberPage }}</a></li>
-                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.next }}">След.</a></li>
+                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.prevPage }}">Пред.</a></li>
+                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.currentPage }}">{{ paginator.currentPage }}</a></li>
+                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.nextPage }}">След.</a></li>
                                 <li class="page-item"><a class="page-link" href="/?page={{ paginator.lastPage }}">Последняя</a></li>
                             </ul>
                         </nav>
