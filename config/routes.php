@@ -17,17 +17,22 @@ $router->any('/', function() use ($container) {
     return $controller();
 });
 
+$router->any('/page/{id:\d+}', function(int $page) use ($container) {
+    $controller = $container[GetTasks::class];
+    return $controller($page);
+});
+
 $router->any('/create', function() use ($container) {
     $controller = $container[CreateTasks::class];
     return $controller();
 });
 
-$router->any('/update/{id}', function($id) use ($container) {
+$router->any('/update/{id}', function(int $id) use ($container) {
     $controller = $container[UpdateTaskAdmin::class];
     return $controller($id);
 });
 
-$router->post('/update/completed/{id}', function($id) use ($container) {
+$router->any('/update/completed/{id}', function(int $id) use ($container) {
     $controller = $container[LogoutAdmin::class];
     return $controller($id);
 });

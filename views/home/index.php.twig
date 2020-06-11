@@ -23,48 +23,49 @@
                         <div class="col"><a href="/logout" class="nav-link">Выход</a></div>
                         {% endif %}
                     </div>
-                    <form class="form-check" method="post" action="#">
+                    <form class="form-check" method="get" action="#">
                         <div class="row">
                             <div class="col" style="font-size: 14px">Сортировка:</div>
                         </div>
+
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="sort" id="exampleRadios0" value="newTask">
+                            <input class="form-check-input" type="radio" name="sort" id="exampleRadios0" value="newTask" {% if choice == 'newTask' %} checked {% endif %}>
                             <label class="form-check-label" for="exampleRadios0" style="font-size: 14px">
                                 Свежие задания
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="sort" id="exampleRadios1" value="nameTaskASC">
+                            <input class="form-check-input" type="radio" name="sort" id="exampleRadios1" value="nameTaskASC" {% if choice == 'nameTaskASC' %} checked {% endif %}>
                             <label class="form-check-label" for="exampleRadios1" style="font-size: 14px">
                                 Имя, по возрастанию
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="sort" id="exampleRadios2" value="nameTaskDESC">
+                            <input class="form-check-input" type="radio" name="sort" id="exampleRadios2" value="nameTaskDESC" {% if choice == 'nameTaskDESC' %} checked {% endif %}>
                             <label class="form-check-label" for="exampleRadios2" style="font-size: 14px">
                                 Имя, по убыванию
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="sort" id="exampleRadios3" value="emailTaskASC">
+                            <input class="form-check-input" type="radio" name="sort" id="exampleRadios3" value="emailTaskASC" {% if choice == 'emailTaskASC' %} checked {% endif %}>
                             <label class="form-check-label" for="exampleRadios3" style="font-size: 14px">
                                Email, по возрастанию
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="sort" id="exampleRadios4" value="emailTaskDESC">
+                            <input class="form-check-input" type="radio" name="sort" id="exampleRadios4" value="emailTaskDESC" {% if choice == 'emailTaskDESC' %} checked {% endif %}>
                             <label class="form-check-label" for="exampleRadios4" style="font-size: 14px">
                                 Email, по убыванию
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="sort" id="exampleRadios5" value="completedTask">
+                            <input class="form-check-input" type="radio" name="sort" id="exampleRadios5" value="completedTask" {% if choice == 'completedTask' %} checked {% endif %}>
                             <label class="form-check-label" for="exampleRadios5" style="font-size: 14px">
                                 Статус, выполнены
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="sort" id="exampleRadios6" value="notCompletedTask">
+                            <input class="form-check-input" type="radio" name="sort" id="exampleRadios6" value="notCompletedTask" {% if choice == 'notCompletedTask' %} checked {% endif %}>
                             <label class="form-check-label" for="exampleRadios6" style="font-size: 14px">
                                 Статус, не выполнены
                             </label>
@@ -112,11 +113,11 @@
                         <div class="col-sm-12">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination pagination-sm justify-content-center">
-                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.firstPage }}">Начальная</a></li>
-                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.prevPage }}">Пред.</a></li>
-                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.currentPage }}">{{ paginator.currentPage }}</a></li>
-                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.nextPage }}">След.</a></li>
-                                <li class="page-item"><a class="page-link" href="/?page={{ paginator.lastPage }}">Последняя</a></li>
+                                <li class="page-item"><a class="page-link" href="/page/{{ paginator.firstPage }}?{{ extraParams }}">Начальная</a></li>
+                                <li class="page-item"><a class="page-link" href="/page/{{ paginator.prevPage }}?{{ extraParams }}">Пред.</a></li>
+                                <li class="page-item"><a class="page-link" href="/page/{{ paginator.currentPage }}?{{ extraParams }}">{{ paginator.currentPage }}</a></li>
+                                <li class="page-item"><a class="page-link" href="/page/{{ paginator.nextPage }}?{{ extraParams }}">След.</a></li>
+                                <li class="page-item"><a class="page-link" href="/page/{{ paginator.lastPage }}?{{ extraParams }}">Последняя</a></li>
                             </ul>
                         </nav>
                         </div>

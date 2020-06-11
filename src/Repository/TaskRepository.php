@@ -144,7 +144,7 @@ final class TaskRepository
         return $sortParam;
     }
 
-    private function getSortParameters(string $choice): Sort
+    public function getSortParameters(string $choice): Sort
     {
         $params = self::parseSortParam($choice);
         $nameSortParam = $params['nameSortParam'];

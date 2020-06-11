@@ -62,17 +62,5 @@ final class UpdateTaskAdmin
             'errors' => $errors,
             'taskInfo' => $task
         ]);
-
-
-//        if(isset($_POST['completed'])){
-//            $this->repository->updateCompleted($id);
-//            $successful = 'Статус изменен.';
-//            return $this->twig->render('admin/update.php.twig', [
-//                'successful' => $successful
-//            ]);
-//        }
-
-
-
     }
 }

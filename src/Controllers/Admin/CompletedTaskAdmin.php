@@ -31,4 +31,13 @@ final class CompletedTaskAdmin
         $this->repository = $repository;
         $this->adminRepository = $adminRepository;
     }
+
+    public function __invoke(int $id):string
+    {
+        $this->adminRepository->checkAdmin();
+        $task = $this->repository->getTaskById($id);
+        $task->complet();
+        $this->repository->update($task);
+        return $this->twig->render('home/index.php.twig');
+    }
 }

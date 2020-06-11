@@ -5,6 +5,7 @@
 namespace TaskManager\Controllers;
 
 
+use TaskManager\Model\Sort;
 use TaskManager\Repository\AdminRepository;
 use TaskManager\Repository\TaskRepository;
 use Twig\Environment;
@@ -26,17 +27,18 @@ final class GetTasks
         $this->adminRepository = $adminRepository;
     }
 
-    public function __invoke(): string
+    public function __invoke(int $page = 1): string
     {
-        $page = $_GET['page'] ?? 1;
 
         $login = $this->adminRepository->isGuest();
-        $choice = $_POST['sort'] ?? '';
+        $choice = $_GET['sort'] ?? '';
         $paginator = $this->repository->getAllByFilter($choice, $page,self::NUMBER_OF_TASKS);
         return $this->twig->render('home/index.php.twig',
             [
+                'extraParams' => http_build_query($_GET),
                 'tasks' => $paginator->getCurrentPageResults(),
                 'login' => $login,
+                'choice' => $choice,
                 'paginator' => $paginator
             ]
         );

@@ -37,6 +37,11 @@ class Task
         $this->edited = false;
     }
 
+    public function complet():void
+    {
+        $this->completed = true;
+    }
+
     public function edit(string $name):void
     {
         if(!$name){
