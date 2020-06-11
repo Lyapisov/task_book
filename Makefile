@@ -13,6 +13,4 @@ initialize-locally: ## Initialize project
 	docker-compose pull
 	docker-compose up --build --remove-orphans -d
 	docker-compose run --rm backend-php-cli composer install
-
-run-tests: ## Runs phpunit
-	docker-compose run --rm backend-php-cli bin/phpunit
+	docker-compose run --rm backend-php-cli vendor/bin/phinx migrate
