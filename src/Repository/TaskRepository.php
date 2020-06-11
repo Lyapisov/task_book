@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace TaskManager\Repository;
 
 use TaskManager\Model\Sort;
-use TaskManager\Services\Db;
 use PDO;
 use TaskManager\Model\Task;
 use ElisDN\Hydrator\Hydrator;
@@ -178,6 +177,7 @@ final class TaskRepository
             'edited'
         ]);
     }
+
     private function extractTaskDataByAdd(Task $task):array
     {
         return $this->hydrator->extract($task, [
