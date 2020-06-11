@@ -10,7 +10,7 @@ use TaskManager\Repository\AdminRepository;
 use TaskManager\Repository\TaskRepository;
 use Twig\Environment;
 
-final class CompletedTaskAdmin
+final class CompleteTask
 {
     private Environment $twig;
     private TaskRepository $repository;
@@ -36,8 +36,9 @@ final class CompletedTaskAdmin
     {
         $this->adminRepository->checkAdmin();
         $task = $this->repository->getTaskById($id);
-        $task->complet();
+        $task->complete();
         $this->repository->update($task);
-        return $this->twig->render('home/index.php.twig');
+        header("Location: /");
+        return '';
     }
 }

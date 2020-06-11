@@ -3,6 +3,7 @@
 
 use Phroute\Phroute\RouteCollector;
 use TaskManager\Controllers\Admin\AuthAdmin;
+use TaskManager\Controllers\Admin\CompleteTask;
 use TaskManager\Controllers\Admin\LogoutAdmin;
 use TaskManager\Controllers\Admin\UpdateTaskAdmin;
 use TaskManager\Controllers\CreateTasks;
@@ -33,7 +34,7 @@ $router->any('/update/{id}', function(int $id) use ($container) {
 });
 
 $router->any('/update/completed/{id}', function(int $id) use ($container) {
-    $controller = $container[LogoutAdmin::class];
+    $controller = $container[CompleteTask::class];
     return $controller($id);
 });
 

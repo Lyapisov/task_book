@@ -75,9 +75,8 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-sm-9 my-sm-1 justify-content-center">
+                <div class="col-sm-6 my-sm-1 justify-content-center">
                     {% for tasks in tasks %}
-                        <div>
                             <div class="card my-sm-3" style="width: 50rem;">
                                 <div class="card-body">
                                     <h6 class="card-title">{{ tasks.userName }}, {{ tasks.userEmail }}</h6>
@@ -95,7 +94,9 @@
                                         {% endif %}
                                             <div class="col-4 text-center">
                                                 {% if login == true %}
+                                                    {% if tasks.completed == false %}
                                                     <span class="badge badge-outline-dark "><a href="/update/completed/{{ tasks.id }}">Завершить задачу</a></span>
+                                                    {% endif %}
                                                     <span class="badge badge-outline-dark "><a href="/update/{{ tasks.id }}">Изменить</a></span>
                                                 {% endif %}
                                             </div>
@@ -107,19 +108,24 @@
                                         </div>
                                 </div>
                             </div>
-                        </div>
                     {% endfor %}
-                    <div class="row">
-                        <div class="col-sm-12">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination pagination-sm justify-content-center">
-                                <li class="page-item"><a class="page-link" href="/page/{{ paginator.firstPage }}?{{ extraParams }}">Начальная</a></li>
-                                <li class="page-item"><a class="page-link" href="/page/{{ paginator.prevPage }}?{{ extraParams }}">Пред.</a></li>
-                                <li class="page-item"><a class="page-link" href="/page/{{ paginator.currentPage }}?{{ extraParams }}">{{ paginator.currentPage }}</a></li>
-                                <li class="page-item"><a class="page-link" href="/page/{{ paginator.nextPage }}?{{ extraParams }}">След.</a></li>
-                                <li class="page-item"><a class="page-link" href="/page/{{ paginator.lastPage }}?{{ extraParams }}">Последняя</a></li>
-                            </ul>
-                        </nav>
+                    <div class="row justify-content-center">
+                        <div class="col-sm">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination pagination-sm">
+                                    <li class="page-item"><a class="page-link" href="/page/{{ paginator.firstPage }}?{{ extraParams }}">Начальная</a></li>
+                                    {% if paginator.currentPage != paginator.prevPage %}
+                                        <li class="page-item"><a class="page-link" href="/page/{{ paginator.prevPage }}?{{ extraParams }}">Пред.</a></li>
+                                        <li class="page-item"><a class="page-link" href="/page/{{ paginator.prevPage }}?{{ extraParams }}">{{ paginator.prevPage }}</a></li>
+                                    {% endif %}
+                                    <li class="page-item"><a class="page-link" href="/page/{{ paginator.currentPage }}?{{ extraParams }}">{{ paginator.currentPage }}</a></li>
+                                    {% if paginator.currentPage != paginator.nextPage %}
+                                        <li class="page-item"><a class="page-link" href="/page/{{ paginator.nextPage }}?{{ extraParams }}">{{ paginator.nextPage }}</a></li>
+                                        <li class="page-item"><a class="page-link" href="/page/{{ paginator.nextPage }}?{{ extraParams }}">След.</a></li>
+                                    {% endif %}
+                                    <li class="page-item"><a class="page-link" href="/page/{{ paginator.lastPage }}?{{ extraParams }}">Последняя</a></li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>

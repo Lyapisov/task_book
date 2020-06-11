@@ -55,14 +55,6 @@ final class AdminRepository
         return false;
     }
 
-    public static function checkEmail($email)
-    {
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)){
-            return true;
-        }
-        return false;
-    }
-
     public function checkAdminData(Admin $admin)
     {
         $adminData = $this->extractAdminData($admin);

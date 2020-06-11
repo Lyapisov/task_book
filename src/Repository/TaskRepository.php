@@ -133,12 +133,12 @@ final class TaskRepository
         }
         if ($choice == 'completedTask'){
             $sortParam['nameSortParam'] = 'completed';
-            $sortParam['sortingDirection'] = 'ASC';
+            $sortParam['sortingDirection'] = 'DESC';
             return $sortParam;
         }
         if ($choice == 'notCompletedTask'){
             $sortParam['nameSortParam'] = 'completed';
-            $sortParam['sortingDirection'] = 'DESC';
+            $sortParam['sortingDirection'] = 'ASC';
             return $sortParam;
         }
         return $sortParam;

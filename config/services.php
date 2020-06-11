@@ -1,7 +1,7 @@
 <?php
 
 use TaskManager\Controllers\Admin\AuthAdmin;
-use TaskManager\Controllers\Admin\CompletedTaskAdmin;
+use TaskManager\Controllers\Admin\CompleteTask;
 use TaskManager\Controllers\Admin\LogoutAdmin;
 use TaskManager\Controllers\Admin\UpdateTaskAdmin;
 use TaskManager\Controllers\CreateTasks;
@@ -32,7 +32,7 @@ $container[UpdateTaskAdmin::class] = new UpdateTaskAdmin(
 );
 $container[AuthAdmin::class] = new AuthAdmin($twig, $container[AdminRepository::class]);
 $container[LogoutAdmin::class] = new LogoutAdmin();
-$container[CompletedTaskAdmin::class] = new CompletedTaskAdmin(
+$container[CompleteTask::class] = new CompleteTask(
     $twig,
     $container[TaskRepository::class],
     $container[AdminRepository::class]

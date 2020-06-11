@@ -37,7 +37,7 @@ class Task
         $this->edited = false;
     }
 
-    public function complet():void
+    public function complete():void
     {
         $this->completed = true;
     }
